@@ -27,25 +27,25 @@ router.post("/", async (req, res) => {
     }
 
     // Send WhatsApp Interactive Buttons
-    // if (response.responses.length > 0) {
-    //     try {
-    //         twilioClient.messages
-    //             .create({
-    //                 from: "whatsapp:+14155238886", // Twilio Sandbox Number
-    //                 to: sender,
-    //                 body: `${response.question}\n\nOptions: ${response.responses.join(", ")}`, // ✅ Send text with options
-    //             })
-    //             .then(message => console.log(`✅ Text Message Sent: ${message.sid}`))
-    //             .catch(error => {
-    //                 console.error("❌ Error sending text message:", error);
-    //             });
-    //     } catch (error) {
-    //         console.error("❌ Critical Error (Skipping Twilio Message):", error);
-    //     }
-    // }
-    // else {
-    //     console.error("❌ No valid responses, skipping Twilio message.");
-    // }
+    if (response.responses.length > 0) {
+        try {
+            twilioClient.messages
+                .create({
+                    from: "whatsapp:+14155238886", // Twilio Sandbox Number
+                    to: sender,
+                    body: `${response.question}\n\nOptions: ${response.responses.join(", ")}`, // ✅ Send text with options
+                })
+                .then(message => console.log(`✅ Text Message Sent: ${message.sid}`))
+                .catch(error => {
+                    console.error("❌ Error sending text message:", error);
+                });
+        } catch (error) {
+            console.error("❌ Critical Error (Skipping Twilio Message):", error);
+        }
+    }
+    else {
+        console.error("❌ No valid responses, skipping Twilio message.");
+    }
     res.send({ reply: response.question, Responses: response.responses });
 });
 
